@@ -61,6 +61,21 @@ def classify_product(prompt:str) -> List[tuple]:
 
     return data_list
 
+def create_dataframe(user_input:str) -> DataFrame:
+
+    results = classify_product(user_input)
+    
+    # Convert the list of tuples into a DataFrame for better visualization
+    df = DataFrame(results, columns=["Similarity %", "BOSS Code", "BOSS Description"])
+
+    # Reorder dataframe
+    df = df[["BOSS Code", "BOSS Description", "Similarity %"]]
+
+    # Convert values
+    df["Similarity %"] = round((df["Similarity %"] * 100),2)  
+
+    return df.head(5)
+
 def display_boss_classifier_module():
 
     st.write(
@@ -81,19 +96,23 @@ def display_boss_classifier_module():
     st.markdown("https://www.bossfederation.com/", unsafe_allow_html=False)
     
     user_input = st.text_area("Enter a product description:", max_chars=100)
-    
-    if user_input:
 
-        results = classify_product(user_input)
-        
-        # Convert the list of tuples into a DataFrame for better visualization
-        df = DataFrame(results, columns=["Similarity %", "BOSS Code", "BOSS Description"])
+    # Initialize or retrieve counter using Streamlit's state feature
+    if 'counter' not in st.session_state:
+        st.session_state.counter = 0
 
-        # Reorder dataframe
-        df = df[["BOSS Code", "BOSS Description", "Similarity %"]]
+    if st.session_state.counter < 100:
 
-        # Convert values
-        df["Similarity %"] = round((df["Similarity %"] * 100),2)
+        if user_input:
 
-        # Display the top 5
-        st.table(df.head(5))
+            df = create_dataframe(user_input=user_input)
+
+            st.session_state.counter += 10
+
+            st.progress(st.session_state.counter, text="Free Play")
+
+            # Display the top 5
+            st.table(df.head(5))
+
+    else:
+        st.write("Thank you for trying this module :)")

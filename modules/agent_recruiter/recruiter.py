@@ -64,16 +64,28 @@ def display_agent_recruiter():
         height=20
         )
     
-    if user_input:
+    # Initialize or retrieve counter using Streamlit's state feature
+    if 'counter' not in st.session_state:
+        st.session_state.counter = 0
 
-        with st.spinner("Recruiting..."):
+    if st.session_state.counter < 100:
+        if user_input:
 
-            reply = api_call(prompt=user_input)
+            st.session_state.counter += 10
 
-        st.success("Recruitment complete!")
-        st.divider()
+            st.progress(st.session_state.counter, text="Free Play")
 
-        reply_list = string_to_list(list_str=reply)
+            with st.spinner("Recruiting..."):
 
-        st.json(body=reply_list, expanded=True)
-        st.divider()
+                reply = api_call(prompt=user_input)
+
+            st.success("Recruitment complete!")
+            st.divider()
+
+            reply_list = string_to_list(list_str=reply)
+
+            st.json(body=reply_list, expanded=True)
+            st.divider()
+
+    else:
+        st.write("Thank you for trying this module :)")
