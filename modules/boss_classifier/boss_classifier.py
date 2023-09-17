@@ -95,7 +95,11 @@ def display_boss_classifier_module():
 
     st.markdown("https://www.bossfederation.com/", unsafe_allow_html=False)
     
-    user_input = st.text_area("Enter a product description:", max_chars=100)
+    user_input = st.text_area(
+        "Enter a product description:", 
+        max_chars=100, 
+        placeholder="Fabric Executive Manager Office Chair in Charcoal 425-540mm Seat High Back with Head Rest"
+        )
 
     # Initialize or retrieve counter using Streamlit's state feature
     if 'counter' not in st.session_state:
