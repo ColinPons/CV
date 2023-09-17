@@ -21,6 +21,9 @@ def main():
     linkedin_link = "https://www.linkedin.com/in/colin-pons/"
     st.markdown(linkedin_link, unsafe_allow_html=True)
 
+    github_link = "https://github.com/ColinPons/CV"
+    st.markdown(github_link, unsafe_allow_html=True)
+
     pdf_link = get_pdf_download_link("pdfs/Colin Pons CV.pdf", "Colin Pons CV.pdf")
     st.markdown(pdf_link, unsafe_allow_html=True)
 
