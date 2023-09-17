@@ -1,19 +1,15 @@
 import openai, streamlit as st
-from re import sub
 from ast import literal_eval
 from time import sleep
 
 MAX_RETRIES = 5
 RETRY_DELAY_SECONDS = 1
-
 OPEN_AI_KEY = st.secrets.OPENAI_API_KEY
-
-def clean_prompt(prompt:str) -> str:
-    return sub(r'[^a-zA-Z0-9]', '', prompt)
 
 def string_to_list(list_str: str) -> list[dict[str, str]]:
     return literal_eval(list_str)
 
+@st.cache_data(ttl=900) # Cache data for 15mins
 def api_call(prompt:str) -> str:
 
     system_prompt = [
@@ -43,6 +39,14 @@ def api_call(prompt:str) -> str:
 
     else:
         return "Sorry maximum attempts exceeded :("
+
+def recruit_team(user_input:str) -> list[dict[str, str]]:
+
+    api_responce = api_call(prompt=user_input)
+
+    reply_list = string_to_list(list_str=api_responce)
+
+    return reply_list
 
 def display_agent_recruiter():
 
@@ -77,12 +81,10 @@ def display_agent_recruiter():
 
             with st.spinner("Recruiting..."):
 
-                reply = api_call(prompt=user_input)
+                reply_list = recruit_team(user_input=user_input)
 
             st.success("Recruitment complete!")
             st.divider()
-
-            reply_list = string_to_list(list_str=reply)
 
             st.json(body=reply_list, expanded=True)
             st.divider()
