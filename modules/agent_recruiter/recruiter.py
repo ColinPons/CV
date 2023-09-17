@@ -51,9 +51,9 @@ def display_agent_recruiter():
         This function is primarily designed to create AI agent roles for use with other AI agent based functions.
 
         When using large language models, being specific to the role required in order to complete a task typically generates higher quality outputs.
-        The challenge is that for an organisation, its sometime challenging to identify granular detail for roles needed to complete the task.
+        When attempting to identify a whole organisation or complete team, its sometime challenging to identify specific detail for roles needed to complete the task.
 
-        For example, if we have a task to redesign a master data model without a domain expert, it is challenging to identify all of the specific roles the project will require.
+        For example, if we have a task to redesign a master data model without a domain expert, the user might not be fully aware which roles the project will require.
 
         """)
 
